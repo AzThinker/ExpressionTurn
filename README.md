@@ -19,10 +19,10 @@ class A
 }
 
 AtkExpConditions<A> expa = new AtkExpConditions<A>();
-expa.AddAndWhere(s => s.Id == 123 && s.nameA.Contains("a"), AtkAlias.a2);
+expa.AddAndWhere(s => s.Id == 123 && s.name.Contains("a"), AtkAlias.a2);
 expa.UpdateFields(s => new { s.Id, s.sex }, AtkAlias.a2);
   
-结果生成下列两个语句
+结果生成下列两个语句：
 1、Where (([a2].[Id] = 123) and ([a2].[name] LIKE '%' + 'a' + '%'))
 2、[a2].[Id] = @Id,[a2].[sexA] = @sex
 
