@@ -6,7 +6,7 @@ using System.Text;
 using System.Collections;
 using System.Text.RegularExpressions;
 
-namespace Atk.ExpressionTurn.BizExpressionTurn
+namespace Atk.AtkExpression
 {
     /// <summary>
     /// SQL过滤工具类

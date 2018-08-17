@@ -19,20 +19,20 @@ namespace Atk.AtkExpression
         public static string MutiInWhere(int[] inConditon)
         {
 
-            string bizincdt = string.Empty;
+            string atkincdt = string.Empty;
             foreach (var item in inConditon)
             {
-                if (string.IsNullOrWhiteSpace(bizincdt))
+                if (string.IsNullOrWhiteSpace(atkincdt))
                 {
-                    bizincdt = item.ToString();
+                    atkincdt = item.ToString();
                 }
                 else
                 {
-                    bizincdt = bizincdt + "," + item.ToString();
+                    atkincdt = atkincdt + "," + item.ToString();
                 }
             }
 
-            return bizincdt;
+            return atkincdt;
         }
 
         /// <summary>
@@ -42,19 +42,19 @@ namespace Atk.AtkExpression
         /// <returns>In 条件语句</returns>
         public static string MutiInWhere(IList<int> inConditon)
         {
-            string bizincdt = string.Empty;
+            string atkincdt = string.Empty;
             foreach (var item in inConditon)
             {
-                if (string.IsNullOrWhiteSpace(bizincdt))
+                if (string.IsNullOrWhiteSpace(atkincdt))
                 {
-                    bizincdt = item.ToString();
+                    atkincdt = item.ToString();
                 }
                 else
                 {
-                    bizincdt = bizincdt + "," + item.ToString();
+                    atkincdt = atkincdt + "," + item.ToString();
                 }
             }
-            return bizincdt;
+            return atkincdt;
         }
     }
 }

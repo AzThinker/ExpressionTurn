@@ -17,8 +17,8 @@ namespace Atk.AtkExpression
 
     internal enum AtkExpSqlType : byte
     {
-        bizWhere,
-        bizOrder
+        atkWhere,
+        atkOrder
     }
     /// <summary>
     /// 输出一个基于C#分析器的表达式树
@@ -29,30 +29,30 @@ namespace Atk.AtkExpression
         string _tableAlias = string.Empty;// "[a0].";
         int indent = 2;
         int depth = 0;
-        string bizWhereResult = string.Empty;
-        string bizOrdeRsult = string.Empty;
-        int bizOrderTime = 0;
-        public int BizOrderTime
+        string atkWhereResult = string.Empty;
+        string atkOrdeRsult = string.Empty;
+        int atkOrderTime = 0;
+        public int AtkOrderTime
         {
-            get { return bizOrderTime; }
+            get { return atkOrderTime; }
             set
             {
 
-                bizOrderTime = value;
+                atkOrderTime = value;
             }
         }
-        int bizWhereTime = 0;
+        int atkWhereTime = 0;
 
-        public int BizWhereTime
+        public int AtkWhereTime
         {
-            get { return bizWhereTime; }
+            get { return atkWhereTime; }
             set
             {
 
-                bizWhereTime = value;
+                atkWhereTime = value;
             }
         }
-        AtkExpSqlType bizRead = AtkExpSqlType.bizWhere;
+        AtkExpSqlType atkRead = AtkExpSqlType.atkWhere;
 
         protected AtkExpressionWriterSql(TextWriter writer)
         {
@@ -64,44 +64,44 @@ namespace Atk.AtkExpression
             new AtkExpressionWriterSql(writer).Visit(expression);
         }
 
-        private static string Write(TextWriter writer, System.Linq.Expressions.Expression expression, AtkExpSqlType bizSql)
+        private static string Write(TextWriter writer, System.Linq.Expressions.Expression expression, AtkExpSqlType atkSql)
         {
             expression = AtkPartialEvaluator.Eval(expression);
-            var bizR = new AtkExpressionWriterSql(writer);
-            bizR.bizRead = bizSql;
-            bizR.Visit(expression);
+            var atkR = new AtkExpressionWriterSql(writer);
+            atkR.atkRead = atkSql;
+            atkR.Visit(expression);
             string result = string.Empty;
-            switch (bizSql)
+            switch (atkSql)
             {
-                case AtkExpSqlType.bizOrder:
-                    result = Regex.Replace(bizR.bizOrdeRsult, @",\s?$", "");
+                case AtkExpSqlType.atkOrder:
+                    result = Regex.Replace(atkR.atkOrdeRsult, @",\s?$", "");
                     return result;
 
-                case AtkExpSqlType.bizWhere:
-                    result = Regex.Replace(bizR.bizWhereResult, @"and\s?$", "");
+                case AtkExpSqlType.atkWhere:
+                    result = Regex.Replace(atkR.atkWhereResult, @"and\s?$", "");
                     return result; ;
                 default: return string.Empty;
             }
 
         }
 
-        private static string Write(TextWriter writer, System.Linq.Expressions.Expression expression, AtkExpSqlType bizSql, string tableAlias)
+        private static string Write(TextWriter writer, System.Linq.Expressions.Expression expression, AtkExpSqlType atkSql, string tableAlias)
         {
             expression = AtkPartialEvaluator.Eval(expression);
-            var bizR = new AtkExpressionWriterSql(writer);
+            var atkR = new AtkExpressionWriterSql(writer);
             if (!string.IsNullOrWhiteSpace(tableAlias))
-                bizR._tableAlias = "[" + tableAlias + "].";
-            bizR.bizRead = bizSql;
-            bizR.Visit(expression);
+                atkR._tableAlias = "[" + tableAlias + "].";
+            atkR.atkRead = atkSql;
+            atkR.Visit(expression);
             string result = string.Empty;
-            switch (bizSql)
+            switch (atkSql)
             {
-                case AtkExpSqlType.bizOrder:
-                    result = Regex.Replace(bizR.bizOrdeRsult, @",\s?$", "");
+                case AtkExpSqlType.atkOrder:
+                    result = Regex.Replace(atkR.atkOrdeRsult, @",\s?$", "");
                     return result;
 
-                case AtkExpSqlType.bizWhere:
-                    result = Regex.Replace(bizR.bizWhereResult, @"and\s?$", "");
+                case AtkExpSqlType.atkWhere:
+                    result = Regex.Replace(atkR.atkWhereResult, @"and\s?$", "");
                     return result; ;
                 default: return string.Empty;
             }
@@ -116,16 +116,16 @@ namespace Atk.AtkExpression
             return sw.ToString();
         }
 
-        public static string BizWhereWriteToString(System.Linq.Expressions.Expression expression, AtkExpSqlType bizSql)
+        public static string AtkWhereWriteToString(System.Linq.Expressions.Expression expression, AtkExpSqlType atkSql)
         {
             StringWriter sw = new StringWriter();
-            return Write(sw, expression, bizSql);
+            return Write(sw, expression, atkSql);
         }
 
-        public static string BizWhereWriteToString(System.Linq.Expressions.Expression expression, AtkExpSqlType bizSql, string tableAlias)
+        public static string AtkWhereWriteToString(System.Linq.Expressions.Expression expression, AtkExpSqlType atkSql, string tableAlias)
         {
             StringWriter sw = new StringWriter();
-            return Write(sw, expression, bizSql, tableAlias);
+            return Write(sw, expression, atkSql, tableAlias);
         }
 
 
@@ -153,10 +153,10 @@ namespace Atk.AtkExpression
 
         protected void Write(string text)
         {
-            switch (bizRead)
+            switch (atkRead)
             {
-                case AtkExpSqlType.bizOrder: bizOrdeRsult = bizOrdeRsult + text; break;
-                case AtkExpSqlType.bizWhere: bizWhereResult = bizWhereResult + text; break;
+                case AtkExpSqlType.atkOrder: atkOrdeRsult = atkOrdeRsult + text; break;
+                case AtkExpSqlType.atkWhere: atkWhereResult = atkWhereResult + text; break;
             }
 
             this.writer.Write(text);
@@ -285,7 +285,7 @@ namespace Atk.AtkExpression
             {
                 //if (b.Left is MemberExpression)
                 //{
-                //    if (((MemberExpression)b.Left).Type == typeof(bool) && (bizRead == BizExpSqlType.bizWhere))
+                //    if (((MemberExpression)b.Left).Type == typeof(bool) && (atkRead == AtkExpSqlType.atkWhere))
                 //    {
                 //        this.Write("(" + ((MemberExpression)b.Left).Member.Name + " = 1)");
                 //    }
@@ -526,7 +526,7 @@ namespace Atk.AtkExpression
         {
             if (lambda.Body.NodeType == ExpressionType.MemberAccess)
             {
-                if (((MemberExpression)lambda.Body).Type == typeof(bool) && (bizRead == AtkExpSqlType.bizWhere))
+                if (((MemberExpression)lambda.Body).Type == typeof(bool) && (atkRead == AtkExpSqlType.atkWhere))
                 {
                     this.Write(((MemberExpression)lambda.Body).Member.Name + " = 1");
                 }
@@ -693,7 +693,7 @@ namespace Atk.AtkExpression
             //{
             //     this.Write(this.GetTypeName(m.Method.DeclaringType));
             //}
-            string bizname = m.Method.Name.ToLower();
+            string atkname = m.Method.Name.ToLower();
 
             //if (this.GetTypeName(m.Method.DeclaringType).ToLower() != "queryable")
             //{
@@ -701,12 +701,12 @@ namespace Atk.AtkExpression
             //}
             //    this.Write(m.Method.Name);
 
-            switch (bizname)
+            switch (atkname)
             {
                 case "where":
-                    if (bizRead == AtkExpSqlType.bizWhere)
+                    if (atkRead == AtkExpSqlType.atkWhere)
                     {
-                        BizWhereTime = BizWhereTime + 1;
+                        AtkWhereTime = AtkWhereTime + 1;
                     }
                     else
                     {
@@ -718,9 +718,9 @@ namespace Atk.AtkExpression
                 case "orderbydescending":
                 case "thenbydescending":
                 case "thenby":
-                    if (bizRead == AtkExpSqlType.bizOrder)
+                    if (atkRead == AtkExpSqlType.atkOrder)
                     {
-                        BizOrderTime = BizOrderTime + 1;
+                        AtkOrderTime = AtkOrderTime + 1;
                     }
                     else
                     {
@@ -730,8 +730,8 @@ namespace Atk.AtkExpression
                     break;
             }
 
-            //bool bizisw = bizname == "where" || bizname == "orderby" || bizname == "thenby";
-            //if (bizisw)
+            //bool atkisw = atkname == "where" || atkname == "orderby" || atkname == "thenby";
+            //if (atkisw)
             //{
             //    this.Write(m.Method.Name);
             //}
@@ -743,7 +743,7 @@ namespace Atk.AtkExpression
 
             }
             //    this.WriteLine(Indentation.Outer);
-            //if (bizisw)
+            //if (atkisw)
             //{
             //    this.Write(")");
             //}
@@ -1110,20 +1110,20 @@ namespace Atk.AtkExpression
             base.VisitMethodCall(m);
             if (m.Arguments.Count > 1)
             {
-                switch (bizname)
+                switch (atkname)
                 {
                     case "orderbydescending":
-                    case "thenbydescending": bizOrdeRsult = bizOrdeRsult + " Desc"; break;
+                    case "thenbydescending": atkOrdeRsult = atkOrdeRsult + " Desc"; break;
 
                 }
-                if (bizRead == AtkExpSqlType.bizOrder)
+                if (atkRead == AtkExpSqlType.atkOrder)
                 {
-                    bizOrdeRsult = bizOrdeRsult + ",";
+                    atkOrdeRsult = atkOrdeRsult + ",";
                 }
                 else
                 {
 
-                    bizWhereResult = bizWhereResult + " and ";
+                    atkWhereResult = atkWhereResult + " and ";
 
 
                 }

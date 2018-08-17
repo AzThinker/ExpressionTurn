@@ -10,7 +10,7 @@ namespace Atk.AtkExpression
     /// <summary>
     /// 表达式操作枚举
     /// </summary>
-    internal enum BizExpUnion : byte
+    internal enum AtkExpUnion : byte
     {
         /// <summary>
         /// 与操作
@@ -29,7 +29,7 @@ namespace Atk.AtkExpression
     /// <summary>
     /// 表别名
     /// </summary>
-    public enum BizAlias
+    public enum AtkAlias
     {
         /// <summary>
         /// 别名为 [a0]
@@ -78,7 +78,7 @@ namespace Atk.AtkExpression
     /// </summary>
     /// <typeparam name="T">查询类</typeparam>
     [Serializable]
-    public sealed class BizExpConditions<T>
+    public sealed class AtkExpConditions<T>
     {
 
         #region 外部访问方法
@@ -132,13 +132,13 @@ namespace Atk.AtkExpression
         /// <returns>更新字段语句</returns>
         public string UpdateFields()
         {
-            IEnumerable<KeyValuePair<string, string>> bizfl = _znUpdateListField.Distinct();
+            IEnumerable<KeyValuePair<string, string>> atkfl = _atkUpdateListField.Distinct();
 
-            if (bizfl.Count() == 0) return string.Empty;
+            if (atkfl.Count() == 0) return string.Empty;
 
             string result = string.Empty;
 
-            foreach (var item in bizfl)
+            foreach (var item in atkfl)
             {
                 if (string.IsNullOrEmpty(result))
                 {
@@ -159,14 +159,14 @@ namespace Atk.AtkExpression
         /// <returns>增加语句</returns>
         public string InsertFields()
         {
-            IEnumerable<KeyValuePair<string, string>> bizfl = _znUpdateListField.Distinct();
+            IEnumerable<KeyValuePair<string, string>> atkfl = _atkUpdateListField.Distinct();
 
-            if (bizfl.Count() == 0) return string.Empty;
+            if (atkfl.Count() == 0) return string.Empty;
 
             string result1 = string.Empty;
             string result2 = string.Empty;
 
-            foreach (var item in bizfl)
+            foreach (var item in atkfl)
             {
                 if (string.IsNullOrEmpty(result1))
                 {
@@ -190,15 +190,15 @@ namespace Atk.AtkExpression
         /// <returns>Where条件语句</returns>
         public string Where(bool AddCinditionKey = true)
         {
-            if (string.IsNullOrWhiteSpace(_znWhereStr)) return string.Empty;
+            if (string.IsNullOrWhiteSpace(_atkWhereStr)) return string.Empty;
 
             if (AddCinditionKey)
             {
-                return " Where " + _znWhereStr;
+                return " Where " + _atkWhereStr;
             }
             else
             {
-                return _znWhereStr;
+                return _atkWhereStr;
             }
         }
 
@@ -211,15 +211,15 @@ namespace Atk.AtkExpression
         /// <returns>OrderBy 条件语句</returns>
         public string OrderBy(bool AddCinditionKey = true)
         {
-            if (string.IsNullOrWhiteSpace(_znOrderByStr)) return string.Empty;
+            if (string.IsNullOrWhiteSpace(_atkOrderByStr)) return string.Empty;
 
             if (AddCinditionKey)
             {
-                return " Order By " + _znOrderByStr;
+                return " Order By " + _atkOrderByStr;
             }
             else
             {
-                return _znOrderByStr;
+                return _atkOrderByStr;
             }
 
         }
@@ -249,27 +249,27 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 添加一个Where条件语句，如果语句存在，则以 And 相联接
         /// </summary>
-        /// <param name="bizExp">Where条件表达式</param>
+        /// <param name="atkExp">Where条件表达式</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddAndWhere(Expression<Func<T, bool>> bizExp, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddAndWhere(Expression<Func<T, bool>> atkExp, AtkAlias tableAlias = AtkAlias.a0)
         {
-            SetWhere(bizExp, BizExpUnion.And, tableAlias);
+            SetWhere(atkExp, AtkExpUnion.And, tableAlias);
             return this;
         }
 
         /// <summary>
         /// 当给定条件满足时,添加一个Where条件语句，如果语句存在，则以 And 相联接
         /// </summary>
-        /// <param name="bizCondition">给定条件</param>
-        /// <param name="bizExp">Where条件表达式</param>
+        /// <param name="atkCondition">给定条件</param>
+        /// <param name="atkExp">Where条件表达式</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddAndWhere(bool bizCondition, Expression<Func<T, bool>> bizExp, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddAndWhere(bool atkCondition, Expression<Func<T, bool>> atkExp, AtkAlias tableAlias = AtkAlias.a0)
         {
-            if (bizCondition)
+            if (atkCondition)
             {
-                SetWhere(bizExp, BizExpUnion.And, tableAlias);
+                SetWhere(atkExp, AtkExpUnion.And, tableAlias);
             }
             return this;
 
@@ -278,32 +278,32 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 当给定lambda表达式条件满足时,添加一个Where条件语句，如果语句存在，则以 And 相联接
         /// </summary>
-        /// <param name="bizCondition">给定lambda表达式条件</param>
-        /// <param name="bizExp">条件表达式</param>
+        /// <param name="atkCondition">给定lambda表达式条件</param>
+        /// <param name="atkExp">条件表达式</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddAndWhere(Func<bool> bizCondition, Expression<Func<T, bool>> bizExp, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddAndWhere(Func<bool> atkCondition, Expression<Func<T, bool>> atkExp, AtkAlias tableAlias = AtkAlias.a0)
         {
-            return AddAndWhere(bizCondition(), bizExp, tableAlias);
+            return AddAndWhere(atkCondition(), atkExp, tableAlias);
         }
 
         /// <summary>
         /// 如果条件满足时,将添加前一个条件语句（Where），否则添加后一个,以 And 相联接
         /// </summary>
-        /// <param name="bizCondition">条件</param>
-        /// <param name="bizExpWhenTrue">条件为真时</param>
-        /// <param name="bizExpWhenFalse">条件为假时</param>
+        /// <param name="atkCondition">条件</param>
+        /// <param name="atkExpWhenTrue">条件为真时</param>
+        /// <param name="atkExpWhenFalse">条件为假时</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddAndWhere(bool bizCondition, Expression<Func<T, bool>> bizExpWhenTrue, Expression<Func<T, bool>> bizExpWhenFalse, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddAndWhere(bool atkCondition, Expression<Func<T, bool>> atkExpWhenTrue, Expression<Func<T, bool>> atkExpWhenFalse, AtkAlias tableAlias = AtkAlias.a0)
         {
-            if (bizCondition)
+            if (atkCondition)
             {
-                SetWhere(bizExpWhenTrue, BizExpUnion.And, tableAlias);
+                SetWhere(atkExpWhenTrue, AtkExpUnion.And, tableAlias);
             }
             else
             {
-                SetWhere(bizExpWhenFalse, BizExpUnion.And, tableAlias);
+                SetWhere(atkExpWhenFalse, AtkExpUnion.And, tableAlias);
             }
             return this;
 
@@ -312,14 +312,14 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 如果条件满足时,将添加前一个条件语句（Where），否则添加后一个,以 And 相联接
         /// </summary>
-        /// <param name="bizCondition">Lambda条件</param>
-        /// <param name="bizExpWhenTrue">条件为真时</param>
-        /// <param name="bizExpWhenFalse">条件为假时</param>
+        /// <param name="atkCondition">Lambda条件</param>
+        /// <param name="atkExpWhenTrue">条件为真时</param>
+        /// <param name="atkExpWhenFalse">条件为假时</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddAndWhere(Func<bool> bizCondition, Expression<Func<T, bool>> bizExpWhenTrue, Expression<Func<T, bool>> bizExpWhenFalse, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddAndWhere(Func<bool> atkCondition, Expression<Func<T, bool>> atkExpWhenTrue, Expression<Func<T, bool>> atkExpWhenFalse, AtkAlias tableAlias = AtkAlias.a0)
         {
-            return AddAndWhere(bizCondition(), bizExpWhenTrue, bizExpWhenFalse, tableAlias);
+            return AddAndWhere(atkCondition(), atkExpWhenTrue, atkExpWhenFalse, tableAlias);
         }
 
         #endregion
@@ -329,28 +329,28 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 添加一个Where条件语句，如果语句存在，则以 Or 相联接
         /// </summary>
-        /// <param name="bizExp">Where条件表达式</param>
+        /// <param name="atkExp">Where条件表达式</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrWhere(Expression<Func<T, bool>> bizExp, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrWhere(Expression<Func<T, bool>> atkExp, AtkAlias tableAlias = AtkAlias.a0)
         {
 
-            SetWhere(bizExp, BizExpUnion.Or, tableAlias);
+            SetWhere(atkExp, AtkExpUnion.Or, tableAlias);
             return this;
         }
 
         /// <summary>
         /// 当给定条件满足时,添加一个Where条件语句，如果语句存在，则以 Or 相联接
         /// </summary>
-        /// <param name="bizCondition">给定条件</param>
-        /// <param name="bizExp">Where条件表达式</param>
+        /// <param name="atkCondition">给定条件</param>
+        /// <param name="atkExp">Where条件表达式</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrWhere(bool bizCondition, Expression<Func<T, bool>> bizExp, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrWhere(bool atkCondition, Expression<Func<T, bool>> atkExp, AtkAlias tableAlias = AtkAlias.a0)
         {
-            if (bizCondition)
+            if (atkCondition)
             {
-                SetWhere(bizExp, BizExpUnion.Or, tableAlias);
+                SetWhere(atkExp, AtkExpUnion.Or, tableAlias);
             }
 
             return this;
@@ -360,32 +360,32 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 当给定lambda表达式条件满足时,添加一个Where条件语句，如果语句存在，则以 Or 相联接
         /// </summary>
-        /// <param name="bizCondition">给定lambda表达式条件</param>
-        /// <param name="bizExp">Where条件表达式</param>
+        /// <param name="atkCondition">给定lambda表达式条件</param>
+        /// <param name="atkExp">Where条件表达式</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrWhere(Func<bool> bizCondition, Expression<Func<T, bool>> bizExp, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrWhere(Func<bool> atkCondition, Expression<Func<T, bool>> atkExp, AtkAlias tableAlias = AtkAlias.a0)
         {
-            return AddOrWhere(bizCondition(), bizExp, tableAlias);
+            return AddOrWhere(atkCondition(), atkExp, tableAlias);
         }
 
         /// <summary>
         /// 如果条件满足时,将添加前一个条件语句（Where），否则添加后一个,以 Or 相联接
         /// </summary>
-        /// <param name="bizCondition">条件</param>
-        /// <param name="bizExpWhenTrue">条件为真时</param>
-        /// <param name="bizExpWhenFalse">条件为假时</param>
+        /// <param name="atkCondition">条件</param>
+        /// <param name="atkExpWhenTrue">条件为真时</param>
+        /// <param name="atkExpWhenFalse">条件为假时</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrWhere(bool bizCondition, Expression<Func<T, bool>> bizExpWhenTrue, Expression<Func<T, bool>> bizExpWhenFalse, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrWhere(bool atkCondition, Expression<Func<T, bool>> atkExpWhenTrue, Expression<Func<T, bool>> atkExpWhenFalse, AtkAlias tableAlias = AtkAlias.a0)
         {
-            if (bizCondition)
+            if (atkCondition)
             {
-                SetWhere(bizExpWhenTrue, BizExpUnion.Or, tableAlias);
+                SetWhere(atkExpWhenTrue, AtkExpUnion.Or, tableAlias);
             }
             else
             {
-                SetWhere(bizExpWhenFalse, BizExpUnion.Or, tableAlias);
+                SetWhere(atkExpWhenFalse, AtkExpUnion.Or, tableAlias);
             }
 
             return this;
@@ -395,14 +395,14 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 如果条件满足时,将添加前一个条件语句（Where），否则添加后一个,以 Or 相联接
         /// </summary>
-        /// <param name="bizCondition">Lambda条件</param>
-        /// <param name="bizExpWhenTrue">条件为真时</param>
-        /// <param name="bizExpWhenFalse">条件为假时</param>
+        /// <param name="atkCondition">Lambda条件</param>
+        /// <param name="atkExpWhenTrue">条件为真时</param>
+        /// <param name="atkExpWhenFalse">条件为假时</param>
         /// <param name="tableAlias">表别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrWhere(Func<bool> bizCondition, Expression<Func<T, bool>> bizExpWhenTrue, Expression<Func<T, bool>> bizExpWhenFalse, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrWhere(Func<bool> atkCondition, Expression<Func<T, bool>> atkExpWhenTrue, Expression<Func<T, bool>> atkExpWhenFalse, AtkAlias tableAlias = AtkAlias.a0)
         {
-            return AddOrWhere(bizCondition(), bizExpWhenTrue, bizExpWhenFalse);
+            return AddOrWhere(atkCondition(), atkExpWhenTrue, atkExpWhenFalse);
         }
 
         #endregion
@@ -414,9 +414,9 @@ namespace Atk.AtkExpression
         /// </summary>
         /// <param name="tableAlias">表别名</param>
         /// <returns>别名</returns>
-        private string BizTableAlias(BizAlias tableAlias)
+        private string AtkTableAlias(AtkAlias tableAlias)
         {
-            if (tableAlias == BizAlias.a99_empty)
+            if (tableAlias == AtkAlias.a99_empty)
                 return string.Empty;
             else
                 return "[" + tableAlias.ToString() + "].";
@@ -432,29 +432,29 @@ namespace Atk.AtkExpression
         /// </example>
         /// </summary>
         /// <typeparam name="F">字段的类型</typeparam>
-        /// <param name="bizFieldSelect">要查询的字段（DishesTypeID）</param>
+        /// <param name="atkFieldSelect">要查询的字段（DishesTypeID）</param>
         /// <param name="inConditon">要查询的值（DishesTypeID的可能值）</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddMutiInWhere<F>(Expression<Func<T, F>> bizFieldSelect, int[] inConditon, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddMutiInWhere<F>(Expression<Func<T, F>> atkFieldSelect, int[] inConditon, AtkAlias tableAlias = AtkAlias.a0)
         {
             if (inConditon.Length == 0) return this;
-            var fieldSelect = BizTableAlias(tableAlias) + Reflect<T>.GetProperty<F>(bizFieldSelect).Name;
-            string bizincdt = string.Empty;
+            var fieldSelect = AtkTableAlias(tableAlias) + Reflect<T>.GetProperty<F>(atkFieldSelect).Name;
+            string atkincdt = string.Empty;
             foreach (var item in inConditon)
             {
-                if (string.IsNullOrWhiteSpace(bizincdt))
+                if (string.IsNullOrWhiteSpace(atkincdt))
                 {
-                    bizincdt = item.ToString();
+                    atkincdt = item.ToString();
                 }
                 else
                 {
-                    bizincdt = bizincdt + "," + item.ToString();
+                    atkincdt = atkincdt + "," + item.ToString();
                 }
             }
-            if (!string.IsNullOrWhiteSpace(bizincdt))
+            if (!string.IsNullOrWhiteSpace(atkincdt))
             {
-                SetWhere(fieldSelect + " in (" + bizincdt + ")");
+                SetWhere(fieldSelect + " in (" + atkincdt + ")");
             }
             return this;
         }
@@ -469,30 +469,30 @@ namespace Atk.AtkExpression
         /// </example>
         /// </summary>
         /// <typeparam name="F">字段的类型</typeparam>
-        /// <param name="bizFieldSelect">要查询的字段（DishesTypeID）</param>
+        /// <param name="atkFieldSelect">要查询的字段（DishesTypeID）</param>
         /// <param name="inConditon">要查询的值（DishesTypeID的可能值）</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>条件 in 的操作方法</returns>
-        public BizExpConditions<T> AddMutiInWhere<F>(Expression<Func<T, F>> bizFieldSelect, IList<int> inConditon, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddMutiInWhere<F>(Expression<Func<T, F>> atkFieldSelect, IList<int> inConditon, AtkAlias tableAlias = AtkAlias.a0)
         {
             if (inConditon.Count == 0) return this;
-            var fieldSelect = BizTableAlias(tableAlias) + Reflect<T>.GetProperty<F>(bizFieldSelect).Name;
+            var fieldSelect = AtkTableAlias(tableAlias) + Reflect<T>.GetProperty<F>(atkFieldSelect).Name;
 
-            string bizincdt = string.Empty;
+            string atkincdt = string.Empty;
             foreach (var item in inConditon)
             {
-                if (string.IsNullOrWhiteSpace(bizincdt))
+                if (string.IsNullOrWhiteSpace(atkincdt))
                 {
-                    bizincdt = item.ToString();
+                    atkincdt = item.ToString();
                 }
                 else
                 {
-                    bizincdt = bizincdt + "," + item.ToString();
+                    atkincdt = atkincdt + "," + item.ToString();
                 }
             }
-            if (!string.IsNullOrWhiteSpace(bizincdt))
+            if (!string.IsNullOrWhiteSpace(atkincdt))
             {
-                SetWhere(fieldSelect + " in (" + bizincdt + ")");
+                SetWhere(fieldSelect + " in (" + atkincdt + ")");
             }
             return this;
         }
@@ -504,13 +504,13 @@ namespace Atk.AtkExpression
         /// 添加一个OrderBy语句
         /// </summary>
         /// <typeparam name="D">OrderBy的字段数据类型</typeparam>
-        /// <param name="bizExp">OrderBy条件表达式</param>
-        /// <param name="bizAsc">排序方式</param>
+        /// <param name="atkExp">OrderBy条件表达式</param>
+        /// <param name="atkAsc">排序方式</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrderBy<D>(Expression<Func<T, D>> bizExp, bool bizAsc = true, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrderBy<D>(Expression<Func<T, D>> atkExp, bool atkAsc = true, AtkAlias tableAlias = AtkAlias.a0)
         {
-            SetOrderBy(bizExp, bizAsc, tableAlias);
+            SetOrderBy(atkExp, atkAsc, tableAlias);
             return this;
         }
 
@@ -518,16 +518,16 @@ namespace Atk.AtkExpression
         /// 如果条件满足时,添加一个OrderBy语句
         /// </summary>
         /// <typeparam name="D">OrderBy的字段数据类型</typeparam>
-        /// <param name="bizCondition">条件</param>
-        /// <param name="bizExp">OrderBy条件表达式</param>
-        /// <param name="bizAsc">排序方式</param>
+        /// <param name="atkCondition">条件</param>
+        /// <param name="atkExp">OrderBy条件表达式</param>
+        /// <param name="atkAsc">排序方式</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrderBy<D>(bool bizCondition, Expression<Func<T, D>> bizExp, bool bizAsc = true, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrderBy<D>(bool atkCondition, Expression<Func<T, D>> atkExp, bool atkAsc = true, AtkAlias tableAlias = AtkAlias.a0)
         {
-            if (bizCondition)
+            if (atkCondition)
             {
-                SetOrderBy(bizExp, bizAsc, tableAlias);
+                SetOrderBy(atkExp, atkAsc, tableAlias);
             }
 
             return this;
@@ -537,13 +537,13 @@ namespace Atk.AtkExpression
         /// 如果条件满足时,添加一个OrderBy语句
         /// </summary>
         /// <typeparam name="D">OrderBy的数据字段类型</typeparam>
-        /// <param name="bizCondition">Lambda条件</param>
-        /// <param name="bizExp">OrderBy条件表达式</param>
+        /// <param name="atkCondition">Lambda条件</param>
+        /// <param name="atkExp">OrderBy条件表达式</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrderBy<D>(Func<bool> bizCondition, Expression<Func<T, D>> bizExp, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrderBy<D>(Func<bool> atkCondition, Expression<Func<T, D>> atkExp, AtkAlias tableAlias = AtkAlias.a0)
         {
-            AddOrderBy<D>(bizCondition(), bizExp, true, tableAlias);
+            AddOrderBy<D>(atkCondition(), atkExp, true, tableAlias);
             return this;
         }
 
@@ -551,21 +551,21 @@ namespace Atk.AtkExpression
         /// 如果条件满足时,将添加前一个OrderBy语句，否则添加后一个
         /// </summary>
         /// <typeparam name="D">OrderBy的数据字段类型</typeparam>
-        /// <param name="bizCondition">条件</param>
-        /// <param name="bizExpWhenTrue">条件为真时</param>
-        /// <param name="bizExpWhenFalse">条件为假时</param>
-        /// <param name="bizAsc">排序方式</param>
+        /// <param name="atkCondition">条件</param>
+        /// <param name="atkExpWhenTrue">条件为真时</param>
+        /// <param name="atkExpWhenFalse">条件为假时</param>
+        /// <param name="atkAsc">排序方式</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrderBy<D>(bool bizCondition, Expression<Func<T, D>> bizExpWhenTrue, Expression<Func<T, D>> bizExpWhenFalse, bool bizAsc = true, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrderBy<D>(bool atkCondition, Expression<Func<T, D>> atkExpWhenTrue, Expression<Func<T, D>> atkExpWhenFalse, bool atkAsc = true, AtkAlias tableAlias = AtkAlias.a0)
         {
-            if (bizCondition)
+            if (atkCondition)
             {
-                SetOrderBy(bizExpWhenTrue, bizAsc, tableAlias);
+                SetOrderBy(atkExpWhenTrue, atkAsc, tableAlias);
             }
             else
             {
-                SetOrderBy(bizExpWhenFalse, bizAsc, tableAlias);
+                SetOrderBy(atkExpWhenFalse, atkAsc, tableAlias);
             }
             return this;
         }
@@ -574,16 +574,16 @@ namespace Atk.AtkExpression
         /// 如果条件满足时,将添加前一个OrderBy语句，否则添加后一个
         /// </summary>
         /// <typeparam name="D">OrderBy的数据字段类型</typeparam>
-        /// <param name="bizCondition">Lambda条件</param>
-        /// <param name="bizExpWhenTrue">条件为真时</param>
-        /// <param name="bizExpWhenFalse">条件为假时</param>
-        /// <param name="bizAsc">排序方式</param>
+        /// <param name="atkCondition">Lambda条件</param>
+        /// <param name="atkExpWhenTrue">条件为真时</param>
+        /// <param name="atkExpWhenFalse">条件为假时</param>
+        /// <param name="atkAsc">排序方式</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> AddOrderBy<D>(Func<bool> bizCondition, Expression<Func<T, D>> bizExpWhenTrue, Expression<Func<T, D>> bizExpWhenFalse,
-            bool bizAsc = true, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> AddOrderBy<D>(Func<bool> atkCondition, Expression<Func<T, D>> atkExpWhenTrue, Expression<Func<T, D>> atkExpWhenFalse,
+            bool atkAsc = true, AtkAlias tableAlias = AtkAlias.a0)
         {
-            return AddOrderBy<D>(bizCondition(), bizExpWhenTrue, bizExpWhenFalse, bizAsc, tableAlias);
+            return AddOrderBy<D>(atkCondition(), atkExpWhenTrue, atkExpWhenFalse, atkAsc, tableAlias);
         }
 
         #endregion
@@ -595,31 +595,31 @@ namespace Atk.AtkExpression
         /// 当更只更新记录中部分记录时，可使用此方法
         /// </summary>
         /// <typeparam name="F">字段类型</typeparam>
-        /// <param name="bizFieldSelect">要更新的字段</param>
+        /// <param name="atkFieldSelect">要更新的字段</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> UpdateField<F>(Expression<Func<T, F>> bizFieldSelect, BizAlias tableAlias = BizAlias.a0)
+        public AtkExpConditions<T> UpdateField<F>(Expression<Func<T, F>> atkFieldSelect, AtkAlias tableAlias = AtkAlias.a0)
         {
-            var fieldSelect = Reflect<T>.GetProperty<F>(bizFieldSelect);
-            _znUpdateListField.Add(BizTableAlias(tableAlias) + "[" + fieldSelect.Name + "]", fieldSelect.Name);
+            var fieldSelect = Reflect<T>.GetProperty<F>(atkFieldSelect);
+            _atkUpdateListField.Add(AtkTableAlias(tableAlias) + "[" + fieldSelect.Name + "]", fieldSelect.Name);
             return this;
         }
 
         /// <summary>
         /// 表达式中，生成更新表字段的方法
         /// 当更只更新记录中部分记录时，可使用此方法
-        /// <para>bizexp.UpdateFields(s => new { s.Afield, s.Bfield }, BizAlias.a2);</para>
+        /// <para>atkexp.UpdateFields(s => new { s.Afield, s.Bfield }, AtkAlias.a2);</para>
         /// </summary>
         /// <typeparam name="F">多字段的一个New对象</typeparam>
-        /// <param name="bizFieldSelect">要更新的字段</param>
+        /// <param name="atkFieldSelect">要更新的字段</param>
         /// <param name="tableAlias">表的别名</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> UpdateFields<F>(Expression<Func<T, F>> bizFieldSelect, BizAlias tableAlias = BizAlias.a0) 
+        public AtkExpConditions<T> UpdateFields<F>(Expression<Func<T, F>> atkFieldSelect, AtkAlias tableAlias = AtkAlias.a0) 
         {
-            var fieldSelects = Reflect<T>.GetPropertys<F>(bizFieldSelect);
+            var fieldSelects = Reflect<T>.GetPropertys<F>(atkFieldSelect);
             foreach (var fieldSelect in fieldSelects)
             {
-                _znUpdateListField.Add(BizTableAlias(tableAlias) + "[" + fieldSelect.Name + "]", fieldSelect.Name);
+                _atkUpdateListField.Add(AtkTableAlias(tableAlias) + "[" + fieldSelect.Name + "]", fieldSelect.Name);
             }
             return this;
         }
@@ -634,7 +634,7 @@ namespace Atk.AtkExpression
         /// <param name="currentPage">当前要显示的页面</param>
         /// <param name="pageRows">每页要显示的记录数</param>
         /// <returns>更改后的表达式</returns>
-        public BizExpConditions<T> LookPage(int currentPage, int pageRows)
+        public AtkExpConditions<T> LookPage(int currentPage, int pageRows)
         {
             _currentPage = currentPage;
             _pageRows = pageRows;
@@ -645,11 +645,11 @@ namespace Atk.AtkExpression
 
         #region 内部操作
 
-        private string _znWhereStr = string.Empty;
+        private string _atkWhereStr = string.Empty;
 
-        private string _znOrderByStr = string.Empty;
+        private string _atkOrderByStr = string.Empty;
 
-        private Dictionary<string, string> _znUpdateListField = new Dictionary<string, string>();
+        private Dictionary<string, string> _atkUpdateListField = new Dictionary<string, string>();
 
         private int _currentPage = 0;//第几页
 
@@ -658,15 +658,15 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 设置表达式条件
         /// </summary>
-        /// <param name="bizExp">表达式</param>
-        /// <param name="bizUion">操作方法</param>
+        /// <param name="atkExp">表达式</param>
+        /// <param name="atkUion">操作方法</param>
         /// <param name="tableAlias">别名</param>
-        private void SetConditionStr(System.Linq.Expressions.Expression bizExp, BizExpUnion bizUion = BizExpUnion.And, BizAlias tableAlias = BizAlias.a0)
+        private void SetConditionStr(System.Linq.Expressions.Expression atkExp, AtkExpUnion atkUion = AtkExpUnion.And, AtkAlias tableAlias = AtkAlias.a0)
         {
-            SetWhere(bizExp, bizUion, tableAlias);//Where条件句
+            SetWhere(atkExp, atkUion, tableAlias);//Where条件句
 
 
-            SetOrderBy(bizExp, false, tableAlias);//Order by 语句
+            SetOrderBy(atkExp, false, tableAlias);//Order by 语句
         }
 
 
@@ -674,21 +674,21 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 排序
         /// </summary>
-        /// <param name="bizExp">表达式</param>
-        /// <param name="bizAsc">正序</param>
+        /// <param name="atkExp">表达式</param>
+        /// <param name="atkAsc">正序</param>
         /// <param name="tableAlias">别名</param>
-        private void SetOrderBy(System.Linq.Expressions.Expression bizExp, bool bizAsc, BizAlias tableAlias)
+        private void SetOrderBy(System.Linq.Expressions.Expression atkExp, bool atkAsc, AtkAlias tableAlias)
         {
-            var itemstr = AtkExpressionWriterSql.BizWhereWriteToString(bizExp, AtkExpSqlType.bizOrder, tableAlias.ToString());
-            if (!bizAsc) itemstr = itemstr + " Desc";
-            if (string.IsNullOrWhiteSpace(_znOrderByStr))
+            var itemstr = AtkExpressionWriterSql.AtkWhereWriteToString(atkExp, AtkExpSqlType.atkOrder, tableAlias.ToString());
+            if (!atkAsc) itemstr = itemstr + " Desc";
+            if (string.IsNullOrWhiteSpace(_atkOrderByStr))
             {
-                _znOrderByStr = itemstr;
+                _atkOrderByStr = itemstr;
             }
             else
             {
 
-                _znOrderByStr = _znOrderByStr + "," + itemstr;
+                _atkOrderByStr = _atkOrderByStr + "," + itemstr;
 
             }
         }
@@ -696,25 +696,25 @@ namespace Atk.AtkExpression
         /// <summary>
         /// 设置where语句
         /// </summary>
-        /// <param name="bizExp">表达式</param>
-        /// <param name="bizUion">操作方法</param>
+        /// <param name="atkExp">表达式</param>
+        /// <param name="atkUion">操作方法</param>
         /// <param name="tableAlias">表别名</param>
-        private void SetWhere(System.Linq.Expressions.Expression bizExp, BizExpUnion bizUion = BizExpUnion.And, BizAlias tableAlias = BizAlias.a0)
+        private void SetWhere(System.Linq.Expressions.Expression atkExp, AtkExpUnion atkUion = AtkExpUnion.And, AtkAlias tableAlias = AtkAlias.a0)
         {
-            var itemstr = AtkExpressionWriterSql.BizWhereWriteToString(bizExp, AtkExpSqlType.bizWhere, tableAlias.ToString());
-            if (string.IsNullOrWhiteSpace(_znWhereStr))
+            var itemstr = AtkExpressionWriterSql.AtkWhereWriteToString(atkExp, AtkExpSqlType.atkWhere, tableAlias.ToString());
+            if (string.IsNullOrWhiteSpace(_atkWhereStr))
             {
-                _znWhereStr = itemstr;
+                _atkWhereStr = itemstr;
             }
             else
             {
-                if (bizUion == BizExpUnion.Or)
+                if (atkUion == AtkExpUnion.Or)
                 {
-                    _znWhereStr = _znWhereStr + " Or " + itemstr;
+                    _atkWhereStr = _atkWhereStr + " Or " + itemstr;
                 }
                 else
                 {
-                    _znWhereStr = _znWhereStr + " And " + itemstr;
+                    _atkWhereStr = _atkWhereStr + " And " + itemstr;
                 }
             }
         }
@@ -723,22 +723,22 @@ namespace Atk.AtkExpression
         /// 设置where语句
         /// </summary>
         /// <param name="itemstr">表达式</param>
-        /// <param name="bizUion">操作方法</param>
-        private void SetWhere(string itemstr, BizExpUnion bizUion = BizExpUnion.And)
+        /// <param name="atkUion">操作方法</param>
+        private void SetWhere(string itemstr, AtkExpUnion atkUion = AtkExpUnion.And)
         {
-            if (string.IsNullOrWhiteSpace(_znWhereStr))
+            if (string.IsNullOrWhiteSpace(_atkWhereStr))
             {
-                _znWhereStr = itemstr;
+                _atkWhereStr = itemstr;
             }
             else
             {
-                if (bizUion == BizExpUnion.Or)
+                if (atkUion == AtkExpUnion.Or)
                 {
-                    _znWhereStr = _znWhereStr + " Or " + itemstr;
+                    _atkWhereStr = _atkWhereStr + " Or " + itemstr;
                 }
                 else
                 {
-                    _znWhereStr = _znWhereStr + " And " + itemstr;
+                    _atkWhereStr = _atkWhereStr + " And " + itemstr;
                 }
             }
 
@@ -749,8 +749,8 @@ namespace Atk.AtkExpression
         /// </summary>
         public void ClearWhere()
         {
-            this._znWhereStr = string.Empty;
-            this._znOrderByStr = string.Empty;
+            this._atkWhereStr = string.Empty;
+            this._atkOrderByStr = string.Empty;
             this._accessFetch = string.Empty;
             this._accessFetchList = string.Empty;
         }
