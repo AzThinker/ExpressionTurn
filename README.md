@@ -17,7 +17,7 @@ Lambda表达式转SQL语句类库
     public Int16 Id { get; set; }
     public string name { get; set; }
     public string sex { get; set; }
-}<br>
+}
 ```
 ```C#
 AtkExpConditions<A> expa = new AtkExpConditions<A>();
