@@ -26,6 +26,7 @@ expa.UpdateFields(s => new { s.Id, s.sex }, AtkAlias.a2);
 1、Where (([a2].[Id] = 123) and ([a2].[name] LIKE '%' + 'a' + '%'))
 2、[a2].[Id] = @Id,[a2].[sexA] = @sex
 
+QQ：344709752
 
 
   
