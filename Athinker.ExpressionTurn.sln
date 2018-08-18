@@ -5,9 +5,7 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Athinker.ExpressionTurn", "Athinker.ExpressionTurn.csproj", "{6CF2B346-F6A1-474D-8165-A13E0383D36F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{462E9702-5AFB-459A-8A16-FC00E6BA4EF5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "..\DemoApp\DemoApp.csproj", "{1CB6A2FF-D9EB-4464-B19F-FC5D014C37A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "DemoApp\DemoApp.csproj", "{1CB6A2FF-D9EB-4464-B19F-FC5D014C37A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +24,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{1CB6A2FF-D9EB-4464-B19F-FC5D014C37A6} = {462E9702-5AFB-459A-8A16-FC00E6BA4EF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2C49C8D5-9834-491E-8210-5B83D6FF8471}
