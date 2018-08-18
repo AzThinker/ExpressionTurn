@@ -34,7 +34,8 @@ expa.UpdateFields(s => new { s.Id, s.sex }, AtkAlias.a2);
 -
 ```c#
     // 当需要多子句拼接时，自动合并成合适的子句，如 Where ，不会出现多个“where”关键词。
-    // When multiple clauses are required to be spliced, they are automatically merged into appropriate clauses, 
+    // When multiple clauses are required to be spliced, 
+    // they are automatically merged into appropriate clauses, 
     // such as Where, without multiple "Where" keywords.
     AtkExpConditions<A> expa2 = new AtkExpConditions<A>();
 
@@ -48,8 +49,12 @@ expa.UpdateFields(s => new { s.Id, s.sex }, AtkAlias.a2);
 	    expa2.AddAndWhere(s => s.name.Contains("a"));
     }
 ```
+
 结果生成下列两个语句：<br>
    Where ([a0].[Id] = 123) And ([a0].[name] LIKE '%' + 'a' + '%')<br>
+   
+   
+ QQ:344709752
   
 
   
